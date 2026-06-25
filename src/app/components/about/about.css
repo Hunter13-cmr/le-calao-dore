@@ -1,0 +1,66 @@
+.about-section {
+  background: #fbfbfb;
+}
+
+.about-card {
+  background: #fff;
+  border-radius: 1.5rem;
+  min-height: 100%;
+  padding: 2.5rem;
+  border: 1px solid rgba(45, 74, 62, 0.08);
+}
+
+.section-label {
+  display: inline-block;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  color: var(--terracotta);
+  letter-spacing: 0.18em;
+  margin-bottom: 1rem;
+}
+
+.about-card h2 {
+  font-size: clamp(2rem, 3vw, 2.75rem);
+  color: var(--forest);
+  margin-bottom: 1rem;
+}
+
+.about-card p {
+  color: #5a5a5a;
+  line-height: 1.9;
+}
+
+.about-list li {
+  margin-bottom: 1rem;
+  color: #444;
+  font-weight: 500;
+}
+
+.about-list i {
+  color: var(--gold);
+  margin-right: 0.75rem;
+}
+
+.about-image {
+  min-height: 420px;
+  background-image: url('/assets/images/about-hero.jpg');
+  background-size: cover;
+  background-position: center;
+  border-radius: 1.5rem;
+}
+
+@media (max-width: 900px) {
+  .about-image {
+    min-height: 320px;
+  }
+}
+
+@media (max-width: 600px) {
+  .about-section {
+    padding: 3rem 0;
+  }
+
+  .about-card {
+    padding: 2rem;
+  }
+}

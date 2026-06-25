@@ -1,0 +1,49 @@
+<header class="header">
+  <div class="container-fluid px-4">
+    <div class="header-content">
+      <div class="logo">
+        <span class="logo-mark">C</span> Le Calao Doré
+      </div>
+
+      <div class="nav-actions">
+        @if(!isMobile){
+          <nav>
+            @for(item of navItems; track item.anchor){
+              <a
+                href="{{ item.anchor }}"
+                [class.active]="activeLink === item.label"
+                (click)="setActive(item.label)">
+                {{ item.label }}
+              </a>
+            }
+          </nav>
+          <a href="#contact" class="btn btn-golden ms-3">Réserver</a>
+        }
+
+        <button
+          class="burger"
+          [class.open]="isMenuOpen"
+          (click)="toggleMenu()"
+          aria-label="Ouvrir le menu mobile">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+
+    @if(isMobile && isMenuOpen){
+      <nav class="mobile-nav">
+        @for(item of navItems; track item.anchor){
+          <a
+            href="{{ item.anchor }}"
+            [class.active]="activeLink === item.label"
+            (click)="setActive(item.label)">
+            {{ item.label }}
+          </a>
+        }
+        <a href="#contact" class="btn btn-golden mobile-booking">Réserver</a>
+      </nav>
+    }
+  </div>
+</header>

@@ -1,0 +1,66 @@
+.temoignages-section {
+  background: #fbfbfb;
+}
+
+.temoignages-section .section-title {
+  color: var(--terracotta);
+  letter-spacing: 0.2em;
+}
+
+.testimonial-card {
+  border: none;
+  border-radius: 1.25rem;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+}
+
+.testimonial-card.rating-low {
+  background:rgb(255, 85, 85);
+}
+
+.testimonial-card.rating-medium {
+  background: yellow;
+}
+
+.testimonial-card.rating-high {
+  background: rgb(61, 236, 61);
+}
+
+.testimonial-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 26px 60px rgba(0, 0, 0, 0.12);
+}
+
+.testimonial-card .card-body {
+  padding: 2rem;
+}
+
+.rating {
+  color: #f0a500;
+  font-size: 1rem;
+}
+
+.rating .star {
+  opacity: 0.35;
+  transition: opacity 0.2s ease;
+}
+
+.rating .star.active {
+  opacity: 1;
+}
+
+.testimonial-text {
+  font-size: 0.95rem;
+  line-height: 1.75;
+  color: #4a4a4a;
+}
+
+.testimonial-name {
+  font-weight: 700;
+  color: var(--forest);
+}
+
+.testimonial-role {
+  font-size: 0.9rem;
+}

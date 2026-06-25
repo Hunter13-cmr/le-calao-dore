@@ -1,0 +1,68 @@
+.horaires-section {
+  background: #fff;
+}
+
+.horaires-section .section-title {
+  color: var(--terracotta);
+  letter-spacing: 0.2em;
+}
+
+.status-banner {
+  border-radius: 1rem;
+  padding: 1rem 1.5rem;
+  text-align: center;
+  margin: 0 auto 1.5rem;
+  max-width: 640px;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 0.65rem 1rem;
+  border-radius: 999px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.status-banner.open {
+  background: #e8f8ea;
+}
+
+.status-banner.open .status-badge {
+  background: #1f6b2d;
+  color: #fff;
+}
+
+.status-banner.closed {
+  background: #ffe5e5;
+}
+
+.status-banner.closed .status-badge {
+  background: #9b2f2f;
+  color: #fff;
+}
+
+.status-detail {
+  font-size: 0.95rem;
+  color: #535353;
+}
+
+.horaires-table {
+  width: 100%;
+  border-radius: 1rem;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.horaires-table th,
+.horaires-table td {
+  border: none;
+  padding: 1rem 1.25rem;
+}
+
+.horaires-table thead {
+  background: #f7f7f7;
+}
+
+.horaires-table tbody tr:nth-child(odd) {
+  background: #fafafa;
+}

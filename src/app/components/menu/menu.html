@@ -1,0 +1,43 @@
+<section id="menu" class="menu-section py-5">
+  <div class="container">
+    <div class="text-center mb-5">
+      <span class="section-title small text-uppercase">Carte du restaurant</span>
+      <h2 class="mt-2">Menu du restaurant</h2>
+      <p class="text-muted">Découvrez nos plats authentiques et nos spécialités camerounaises.</p>
+    </div>
+
+    <div class="d-flex justify-content-center mb-4">
+      <ul class="nav nav-pills menu-tabs">
+        @for(category of categories; track category){
+          <li class="nav-item">
+            <button
+              class="nav-link"
+              [class.active]="activeCategory === category"
+              (click)="setCategory(category)">
+              {{ getCategoryLabel(category) }}
+            </button>
+          </li>
+        }
+      </ul>
+    </div>
+
+    <div class="row g-4">
+      @for(dish of visibleMenu; track dish.id){
+        <div class="col-12 col-md-6 col-lg-4">
+          <article class="card menu-card h-100">
+            <img src="{{ dish.image }}" alt="{{ dish.name }}" class="card-img-top" />
+            <div class="card-body d-flex flex-column">
+              <div class="badge badge-category mb-3 text-uppercase {{ dish.category }}">{{ getCategoryLabel(dish.category) }}</div>
+              <h5 class="card-title">{{ dish.name }}</h5>
+              <p class="card-text text-muted mb-4">{{ dish.description }}</p>
+              <div class="mt-auto d-flex align-items-center justify-content-between">
+                <strong class="price">{{ dish.price }} FCFA</strong>
+                <button class="btn btn-calao btn-sm">Commander</button>
+              </div>
+            </div>
+          </article>
+        </div>
+      }
+    </div>
+  </div>
+</section>

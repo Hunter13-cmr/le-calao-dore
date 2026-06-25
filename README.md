@@ -1,59 +1,100 @@
-# LeCalaoDore
+# Le Calao Doré — Site Vitrine (Angular 22)
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.0.1.
+Projet réalisé pour Angular Talent Lab 2026 — site vitrine responsive pour un restaurant camerounais.
 
-## Development server
+Slogan : « Les saveurs authentiques du Cameroun »
 
-To start a local development server, run:
+---
 
-```bash
-ng serve
-```
+## Prérequis
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+- Node.js 18+ et npm (ou Yarn)
+- Angular CLI (optionnel)
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Installation
 
 ```bash
-ng generate component component-name
+npm install
+# ou
+# yarn install
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## Lancer le serveur de développement
 
 ```bash
-ng generate --help
+npm run start
 ```
 
-## Building
+Le serveur démarre sur `http://localhost:8080` (script `start` configuré pour le port 8080).
 
-To build the project run:
+## Structure importante
+
+- `src/app/components/` : composants standalone (header, hero, about, menu, temoignages, horaires, footer)
+- `public/assets/menu/` : images des plats
+- `public/assets/images/` : images additionnelles (about, décor)
+
+## Images (à vérifier / ajouter)
+
+Place les images suivantes dans `public/assets/menu/` et `public/assets/images/` :
+
+- `public/restaurant.jpg` — image pour le hero
+- `public/assets/menu/poulet.jpg`
+- `public/assets/menu/poulets.jpg`
+- `public/assets/menu/brochettes.jpg`
+- `public/assets/menu/ndole.jpg`
+- `public/assets/menu/beignet.jpg`
+- `public/assets/menu/salade.jpg`
+- `public/assets/menu/dish-1.svg`
+- `public/assets/menu/dish-2.svg`
+- `public/assets/images/about-hero.jpg` — image pour la section "Notre histoire"
+
+> Astuce : plusieurs images sont déjà présentes dans `public/assets/menu/`.
+
+## Commandes Git utiles
 
 ```bash
-ng build
+# initialiser le dépôt
+git init
+git add .
+git commit -m "Initial commit — Le Calao Doré"
+
+# bonnes pratiques : branches feature
+git checkout -b feat/menu
+git add .
+git commit -m "feat(menu): add 8 dishes and responsive grid"
+
+# pousser vers GitHub (préparer remote avant)
+git remote add origin git@github.com:USERNAME/le-calao-dore.git
+git push -u origin main
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## Checklist fournie
 
-## Running unit tests
+- Angular 22 (standalone components) — OUI
+- Bootstrap 5 et Bootstrap Icons — inclus
+- Sections obligatoires présentes — OUI
+- Responsive (mobile <600px, tablette 600–900px, desktop >=900px) — OUI
+- `@for`, `@if`, `@switch`, `[ngClass]`, `[class]`, `[style]` : utilisés dans templates
+- Statut dynamique "OUVERT MAINTENANT" implémenté dans `src/app/components/horaires/horaires.ts`
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+## Tests rapides
 
-```bash
-ng test
-```
+1. `npm run start`
+2. Ouvrir `http://localhost:8080`
+3. Vérifier :
+	- pas d'erreurs dans la console (F12)
+	- menu burger sur mobile s'ouvre/ferme
+	- 8 plats affichés (menu)
+	- 3 témoignages avec étoiles et couleurs
+	- jour courant mis en évidence dans Horaires
 
-## Running end-to-end tests
+## Prochaines étapes que je peux faire pour toi
 
-For end-to-end (e2e) testing, run:
+- Générer 10 commits bien décrits et push sur GitHub (si tu fournis accès)
+- Produire captures d'écran Desktop/Mobile et les placer dans `docs/screenshots/`
+- Améliorer SEO / meta tags et OpenGraph
 
-```bash
-ng e2e
-```
+Si tu veux que je prépare le repo final public et le pousse sur GitHub, donne-moi le nom du repo et j'expliquerai la procédure ou je la ferai pour toi si tu donnes l'accès.
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+---
+Fichier mis à jour automatiquement par l'agent — dis‑moi si tu veux un README bilingue ou avec captures intégrées.

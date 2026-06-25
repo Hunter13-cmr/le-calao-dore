@@ -1,0 +1,35 @@
+<section id="horaires" class="horaires-section py-5">
+  <div class="container">
+    <div class="text-center mb-5">
+      <span class="section-title small text-uppercase">Horaires</span>
+      <h2 class="mt-2">Nos horaires d’ouverture</h2>
+      <p class="text-muted">Retrouvez les jours et heures d’ouverture de votre restaurant camerounais préféré.</p>
+    </div>
+
+    <div class="status-banner mb-4" [ngClass]="{ open: currentStatus.open, closed: !currentStatus.open }">
+      <span class="badge status-badge">{{ currentStatus.label }}</span>
+      <div class="status-detail mt-2">{{ currentStatus.detail }}</div>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table horaires-table">
+        <thead>
+          <tr>
+            <th>Jour</th>
+            <th>Ouverture</th>
+            <th>Fermeture</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for(horaire of horaires; track horaire.jour){
+            <tr [class.current-day]="horaire.jour === currentDay">
+              <td>{{ horaire.jour }}</td>
+              <td>{{ horaire.ouverture }}</td>
+              <td>{{ horaire.fermeture }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>

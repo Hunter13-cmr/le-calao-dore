@@ -1,3 +1,41 @@
-/* You can add global styles to this file, and also import other style files */
+:root{
+  --forest:#2D4A3E;
+  --terracotta:#C84B31;
+  --gold:#E9B824;
+  --cream:#FAF3E0;
+}
 
-@import 'tailwindcss';
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  background:var(--cream);
+  margin:0;
+  font-family:'Poppins',sans-serif;
+}
+
+.section-title{
+  color:var(--forest);
+  font-weight:700;
+}
+
+.btn-calao{
+  background:var(--gold);
+  color:#000;
+  font-weight:600;
+  border:none;
+}
+
+.btn-calao:hover{
+  background:#d4a716;
+}
+
+.card{
+  transition:all .3s ease;
+}
+
+.card:hover{
+  transform:translateY(-5px);
+  box-shadow:0 10px 25px rgba(0,0,0,.15);
+}
