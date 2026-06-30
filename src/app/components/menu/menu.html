@@ -12,6 +12,7 @@
           <li class="nav-item">
             <button
               class="nav-link"
+              [ngClass]="category"
               [class.active]="activeCategory === category"
               (click)="setCategory(category)">
               {{ getCategoryLabel(category) }}

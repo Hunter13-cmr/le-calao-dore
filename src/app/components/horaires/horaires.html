@@ -7,12 +7,21 @@
     </div>
 
     <div class="status-banner mb-4" [ngClass]="{ open: currentStatus.open, closed: !currentStatus.open }">
-      <span class="badge status-badge">{{ currentStatus.label }}</span>
-      <div class="status-detail mt-2">{{ currentStatus.detail }}</div>
+      <div class="status-card d-flex flex-column flex-sm-row align-items-center justify-content-between gap-3">
+        <div class="status-left text-center text-sm-start">
+          <div class="status-icon-wrapper">
+            <i class="bi bi-clock-history status-icon"></i>
+          </div>
+          <span class="badge status-badge">{{ currentStatus.label }}</span>
+        </div>
+        <div class="status-right text-center text-sm-end">
+          <p class="status-detail mb-0">{{ currentStatus.detail }}</p>
+        </div>
+      </div>
     </div>
 
-    <div class="table-responsive">
-      <table class="table horaires-table">
+    <div class="table-responsive horaires-table-wrapper">
+      <table class="table horaires-table shadow-sm">
         <thead>
           <tr>
             <th>Jour</th>

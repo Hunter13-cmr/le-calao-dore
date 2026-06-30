@@ -16,8 +16,24 @@
 }
 
 .menu-tabs .nav-link.active {
-  background: var(--terracotta);
   color: #fff;
+}
+
+.menu-tabs .nav-link.all.active {
+  background: #7a5f3d;
+}
+
+.menu-tabs .nav-link.entree.active {
+  background: #2d4a3e;
+}
+
+.menu-tabs .nav-link.plat.active {
+  background: #c84b31;
+}
+
+.menu-tabs .nav-link.dessert.active {
+  background: #e9b824;
+  color: #000;
 }
 
 .menu-card {
@@ -43,11 +59,11 @@
 }
 
 .menu-card .badge.entree {
-  background: #c84b31;
+  background: #2d4a3e;
 }
 
 .menu-card .badge.plat {
-  background: #2d4a3e;
+  background: #c84b31;
 }
 
 .menu-card .badge.dessert {
