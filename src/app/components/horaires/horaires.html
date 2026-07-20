@@ -1,44 +1,47 @@
 <section id="horaires" class="horaires-section py-5">
   <div class="container">
-    <div class="text-center mb-5">
-      <span class="section-title small text-uppercase">Horaires</span>
-      <h2 class="mt-2">Nos horaires d’ouverture</h2>
-      <p class="text-muted">Retrouvez les jours et heures d’ouverture de votre restaurant camerounais préféré.</p>
+    <div class="section-header text-center mb-5">
+      <span class="section-label">Horaires</span>
+      <h2>Nos horaires d'ouverture</h2>
+      <p class="section-subtitle">Retrouvez les jours et heures d'ouverture de votre restaurant camerounais préféré.</p>
     </div>
 
-    <div class="status-banner mb-4" [ngClass]="{ open: currentStatus.open, closed: !currentStatus.open }">
-      <div class="status-card d-flex flex-column flex-sm-row align-items-center justify-content-between gap-3">
-        <div class="status-left text-center text-sm-start">
-          <div class="status-icon-wrapper">
-            <i class="bi bi-clock-history status-icon"></i>
-          </div>
-          <span class="badge status-badge">{{ currentStatus.label }}</span>
+    <div class="status-card" [ngClass]="{ open: currentStatus.open, closed: !currentStatus.open }">
+      <div class="status-body">
+        <div class="status-icon-wrapper">
+          <i class="bi bi-clock-history status-icon"></i>
         </div>
-        <div class="status-right text-center text-sm-end">
-          <p class="status-detail mb-0">{{ currentStatus.detail }}</p>
+        <div class="status-info">
+          <span class="status-badge">{{ currentStatus.label }}</span>
+          <p class="status-detail">{{ currentStatus.detail }}</p>
+        </div>
+        <div class="status-countdown" [class.closing]="currentStatus.open" [class.opening]="!currentStatus.open">
+          <span class="countdown-value">{{ countdownText }}</span>
+          <span class="countdown-label">{{ currentStatus.open ? 'Avant fermeture' : 'Avant ouverture' }}</span>
         </div>
       </div>
     </div>
 
-    <div class="table-responsive horaires-table-wrapper">
-      <table class="table horaires-table shadow-sm">
-        <thead>
-          <tr>
-            <th>Jour</th>
-            <th>Ouverture</th>
-            <th>Fermeture</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for(horaire of horaires; track horaire.jour){
-            <tr [class.current-day]="horaire.jour === currentDay">
-              <td>{{ horaire.jour }}</td>
-              <td>{{ horaire.ouverture }}</td>
-              <td>{{ horaire.fermeture }}</td>
-            </tr>
-          }
-        </tbody>
-      </table>
+    <div class="schedule-wrapper">
+      <div class="schedule-header">
+        <span class="header-cell">Jour</span>
+        <span class="header-cell">Ouverture</span>
+        <span class="header-cell">Fermeture</span>
+      </div>
+      @for(horaire of horaires; track horaire.jour){
+        <div class="schedule-row" [class.current-day]="horaire.jour === currentDay">
+          <div class="schedule-cell">
+            <span class="jour-dot" [class.active]="horaire.jour === currentDay"></span>
+            <span class="cell-value">{{ horaire.jour }}</span>
+          </div>
+          <div class="schedule-cell">
+            <span class="cell-value">{{ horaire.ouverture }}</span>
+          </div>
+          <div class="schedule-cell">
+            <span class="cell-value">{{ horaire.fermeture }}</span>
+          </div>
+        </div>
+      }
     </div>
   </div>
 </section>

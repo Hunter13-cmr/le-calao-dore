@@ -1,10 +1,4 @@
-import {
- Component,
- HostListener,
- OnInit
-} from '@angular/core';
-
-import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
 
 interface NavItem {
   label: string;
@@ -14,17 +8,14 @@ interface NavItem {
 @Component({
  selector:'app-header',
  standalone:true,
- imports:[CommonModule],
  templateUrl:'./header.html',
  styleUrls:['./header.css']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent {
 
  isMenuOpen = false;
 
  activeLink = 'Accueil';
-
- isMobile = false;
 
  navItems: NavItem[] = [
   { label: 'Accueil', anchor: '#hero' },
@@ -34,25 +25,6 @@ export class HeaderComponent implements OnInit {
   { label: 'Horaires', anchor: '#horaires' },
   { label: 'Contact', anchor: '#contact' },
  ];
-
- constructor(){}
-
- ngOnInit(){
-  if (typeof window !== 'undefined') {
-    this.checkScreen();
-  }
- }
-
- @HostListener('window:resize')
- onResize(){
-  this.checkScreen();
- }
-
-  checkScreen(){
-    if (typeof window !== 'undefined') {
-      this.isMobile = window.innerWidth < 768;
-    }
-  }
 
  toggleMenu(){
   this.isMenuOpen = !this.isMenuOpen;
