@@ -64,3 +64,46 @@
 .testimonial-role {
   font-size: 0.9rem;
 }
+
+@media (max-width: 768px) {
+  .testimonial-card .card-body {
+    padding: 1.5rem;
+  }
+
+  .testimonial-text {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .testimonial-card .card-body {
+    padding: 1.25rem;
+  }
+
+  .temoignages-section h2 {
+    font-size: 1.5rem;
+  }
+
+  .testimonial-text {
+    font-size: 0.88rem;
+    line-height: 1.6;
+  }
+
+  .testimonial-name {
+    font-size: 0.95rem;
+  }
+
+  .testimonial-role {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .testimonial-card .card-body {
+    padding: 1rem;
+  }
+
+  .rating {
+    font-size: 0.9rem;
+  }
+}

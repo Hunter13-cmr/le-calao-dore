@@ -55,12 +55,49 @@
   }
 }
 
+@media (max-width: 768px) {
+  .about-card {
+    padding: 2rem;
+  }
+
+  .about-card h2 {
+    font-size: clamp(1.75rem, 4vw, 2rem);
+  }
+
+  .about-image {
+    min-height: 280px;
+  }
+}
+
 @media (max-width: 600px) {
   .about-section {
     padding: 3rem 0;
   }
 
   .about-card {
-    padding: 2rem;
+    padding: 1.5rem;
+    border-radius: 1.25rem;
+  }
+
+  .about-image {
+    min-height: 240px;
+  }
+
+  .about-list li {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .about-image {
+    min-height: 200px;
+  }
+
+  .about-card h2 {
+    font-size: 1.5rem;
+  }
+
+  .about-card {
+    padding: 1.25rem;
   }
 }

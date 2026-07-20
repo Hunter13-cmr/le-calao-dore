@@ -48,11 +48,11 @@ export class HeaderComponent implements OnInit {
   this.checkScreen();
  }
 
- checkScreen(){
-  if (typeof window !== 'undefined') {
-    this.isMobile = window.innerWidth < 600;
+  checkScreen(){
+    if (typeof window !== 'undefined') {
+      this.isMobile = window.innerWidth < 768;
+    }
   }
- }
 
  toggleMenu(){
   this.isMenuOpen = !this.isMenuOpen;
