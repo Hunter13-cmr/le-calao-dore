@@ -1,5 +1,14 @@
-﻿import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
-import { CommonModule } from '@angular/common';
+﻿import {
+  Component,
+  OnInit,
+  OnDestroy,
+  AfterViewInit,
+  PLATFORM_ID,
+  inject,
+  Renderer2,
+  ElementRef
+} from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 
 export interface Horaire {
   jour: string;
@@ -7,75 +16,164 @@ export interface Horaire {
   fermeture: string;
 }
 
+interface Status {
+  open: boolean;
+  label: string;
+  detail: string;
+  image: string;
+}
+
 @Component({
   selector: 'app-horaires',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './horaires.html',
-  styleUrls: ['./horaires.css'],
+  styleUrls: ['./horaires.css']
 })
-export class Horaires implements OnInit, OnDestroy {
+export class Horaires implements OnInit, OnDestroy, AfterViewInit {
+
+  private platformId = inject(PLATFORM_ID);
+
   horaires: Horaire[] = [
-    { jour: 'Lundi', ouverture: '08:00', fermeture: '22:00' },
-    { jour: 'Mardi', ouverture: '08:00', fermeture: '22:00' },
-    { jour: 'Mercredi', ouverture: '08:00', fermeture: '22:00' },
-    { jour: 'Jeudi', ouverture: '08:00', fermeture: '22:00' },
-    { jour: 'Vendredi', ouverture: '08:00', fermeture: '23:00' },
-    { jour: 'Samedi', ouverture: '09:00', fermeture: '23:00' },
-    { jour: 'Dimanche', ouverture: '09:00', fermeture: '20:00' },
+    { jour:'Lundi', ouverture:'08:00', fermeture:'22:00' },
+    { jour:'Mardi', ouverture:'08:00', fermeture:'22:00' },
+    { jour:'Mercredi', ouverture:'08:00', fermeture:'22:00' },
+    { jour:'Jeudi', ouverture:'08:00', fermeture:'22:00' },
+    { jour:'Vendredi', ouverture:'08:00', fermeture:'23:00' },
+    { jour:'Samedi', ouverture:'09:00', fermeture:'23:00' },
+    { jour:'Dimanche', ouverture:'09:00', fermeture:'20:00' }
   ];
 
   currentDay = '';
-  currentStatus = { open: false, label: '', detail: '' };
-  countdownText = '';
-  private timerId: ReturnType<typeof setInterval> | null = null;
+  currentDate = '';
+  currentTime = '';
+  countdownText = '00:00:00';
+  openSinceText = '';
+  closedSinceText = '—';
 
-  constructor(private cdr: ChangeDetectorRef) {}
+  currentStatus: Status = {
+    open: false,
+    label: '',
+    detail: '',
+    image: '/assets/images/100.webp'
+  };
 
-  ngOnInit() {
-    // Always compute initial values
-    this.tick();
+  private timerId: any = null;
 
-    // Use setTimeout to ensure we're past SSR hydration before starting interval
-    setTimeout(() => {
-      this.tick();
-      this.timerId = setInterval(() => {
-        this.tick();
-      }, 1000);
+  constructor(
+    private renderer: Renderer2,
+    private el: ElementRef
+  ) {}
+
+  ngOnInit(): void {
+    this.refresh();
+  }
+
+  ngAfterViewInit(): void {
+    if (typeof window !== 'undefined') {
+      setTimeout(() => this.startLiveUpdates(), 100);
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.timerId !== null && typeof window !== 'undefined') {
+      window.clearInterval(this.timerId);
+      this.timerId = null;
+    }
+  }
+
+  private startLiveUpdates(): void {
+    this.refresh();
+    this.updateDOMElements();
+
+    this.timerId = window.setInterval(() => {
+      this.refresh();
+      this.updateDOMElements();
+    }, 1000);
+  }
+
+  private updateDOMElements(): void {
+    const now = new Date();
+    const jours = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
+    const day = jours[now.getDay()];
+    const curMin = now.getHours() * 60 + now.getMinutes();
+    const curSec = curMin * 60 + now.getSeconds();
+
+    const today = this.horaires.find(h => h.jour === day);
+    if (!today) return;
+
+    const oMin = this.toMin(today.ouverture);
+    const fMin = this.toMin(today.fermeture);
+    const ouvert = curMin >= oMin && curMin < fMin;
+
+    const timeStr = now.toLocaleTimeString('fr-FR');
+    let countdown = 0;
+
+    if (ouvert) countdown = fMin * 60 - curSec;
+    else if (curMin < oMin) countdown = oMin * 60 - curSec;
+    else countdown = (oMin + 1440) * 60 - curSec;
+
+    const nativeEl = this.el.nativeElement;
+
+    const timeNodes = nativeEl.querySelectorAll('.time-box span');
+    timeNodes.forEach((node: any) => {
+      this.renderer.setProperty(node, 'textContent', timeStr);
+    });
+
+    const countdownNodes = nativeEl.querySelectorAll('.countdown-value');
+    countdownNodes.forEach((node: any) => {
+      this.renderer.setProperty(node, 'textContent', this.fmt(countdown));
     });
   }
 
-  ngOnDestroy() {
-    if (this.timerId !== null) {
-      clearInterval(this.timerId);
-    }
+  todaySchedule(): Horaire | undefined {
+    return this.horaires.find(h => h.jour === this.currentDay);
   }
 
-  private tick() {
-    const d = new Date();
-    const dayMap = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
-    this.currentDay = dayMap[d.getDay()];
+  private refresh(): void {
+    const now = new Date();
+    const jours = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
+    this.currentDay = jours[now.getDay()];
 
-    const curMin = d.getHours() * 60 + d.getMinutes();
-    const curSec = curMin * 60 + d.getSeconds();
+    this.currentDate = now.toLocaleDateString('fr-FR', {
+      weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
+    });
+    this.currentTime = now.toLocaleTimeString('fr-FR');
 
-    const today = this.horaires.find(x => x.jour === this.currentDay);
+    const curMin = now.getHours() * 60 + now.getMinutes();
+    const curSec = curMin * 60 + now.getSeconds();
+    const today = this.horaires.find(h => h.jour === this.currentDay);
+
     if (!today) {
-      this.currentStatus = { open: false, label: 'FERMÉ', detail: 'Horaires non disponibles' };
+      this.currentStatus = {
+        open: false,
+        label: 'FERMÉ',
+        detail: 'Horaires indisponibles',
+        image: '/assets/images/200.webp'
+      };
       this.countdownText = '00:00:00';
-      this.cdr.markForCheck();
       return;
     }
 
-    const oMin = this.par(today.ouverture);
-    const fMin = this.par(today.fermeture);
+    const oMin = this.toMin(today.ouverture);
+    const fMin = this.toMin(today.fermeture);
     const ouvert = curMin >= oMin && curMin < fMin;
 
     this.currentStatus = {
       open: ouvert,
       label: ouvert ? 'OUVERT MAINTENANT' : 'FERMÉ',
-      detail: ouvert ? `Ferme à ${today.fermeture}` : `Ouvre à ${today.ouverture}`,
+      detail: ouvert
+        ? `Nous vous accueillons jusqu'à ${today.fermeture}`
+        : `Ouverture à ${today.ouverture}`,
+      image: ouvert ? '/assets/images/giphy.gif' : '/assets/images/100.webp'
     };
+
+    if (ouvert) {
+      const diff = curMin - oMin;
+      this.openSinceText = `${Math.floor(diff / 60)}h ${diff % 60}min`;
+    } else {
+      this.openSinceText = '—';
+    }
 
     let reste = 0;
     if (ouvert) reste = fMin * 60 - curSec;
@@ -83,18 +181,14 @@ export class Horaires implements OnInit, OnDestroy {
     else reste = (oMin + 1440) * 60 - curSec;
 
     this.countdownText = this.fmt(reste);
-    this.cdr.markForCheck();
   }
 
   private fmt(s: number): string {
     if (s <= 0) return '00:00:00';
-    const h = Math.floor(s / 3600);
-    const m = Math.floor((s % 3600) / 60);
-    const sec = s % 60;
-    return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;
+    return `${String(Math.floor(s / 3600)).padStart(2,'0')}:${String(Math.floor((s % 3600) / 60)).padStart(2,'0')}:${String(s % 60).padStart(2,'0')}`;
   }
 
-  private par(t: string): number {
+  private toMin(t: string): number {
     const [h, m] = t.split(':').map(Number);
     return h * 60 + m;
   }

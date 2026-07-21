@@ -1,47 +1,291 @@
 <section id="horaires" class="horaires-section py-5">
   <div class="container">
+
     <div class="section-header text-center mb-5">
       <span class="section-label">Horaires</span>
       <h2>Nos horaires d'ouverture</h2>
-      <p class="section-subtitle">Retrouvez les jours et heures d'ouverture de votre restaurant camerounais préféré.</p>
+      <p class="section-subtitle">
+        Retrouvez les jours et heures d'ouverture de votre restaurant camerounais préféré.
+      </p>
     </div>
 
-    <div class="status-card" [ngClass]="{ open: currentStatus.open, closed: !currentStatus.open }">
+
+    <!-- STATUT ACTUEL -->
+    <div class="status-card"
+         [class.open]="currentStatus.open"
+         [class.closed]="!currentStatus.open">
+
       <div class="status-body">
-        <div class="status-icon-wrapper">
-          <i class="bi bi-clock-history status-icon"></i>
+
+
+        <!-- GAUCHE -->
+        <div class="status-left">
+
+          <div class="status-icon-wrapper">
+            <img class="status-image"
+                 [src]="currentStatus.image"
+                 [alt]="currentStatus.label"
+                 loading="lazy">
+          </div>
+
+          <div class="status-badge-row">
+
+            <span class="status-badge">
+              {{currentStatus.label}}
+            </span>
+
+            <span class="status-greeting">
+              {{currentStatus.open
+                ? 'Bienvenue au Calao Doré !'
+                : 'Merci de votre visite.'}}
+            </span>
+
+            <span class="status-greeting-sub">
+              {{currentStatus.open
+                ? 'Nous sommes heureux de vous accueillir.'
+                : 'Nous vous accueillerons dès demain.'}}
+            </span>
+
+          </div>
+
         </div>
-        <div class="status-info">
-          <span class="status-badge">{{ currentStatus.label }}</span>
-          <p class="status-detail">{{ currentStatus.detail }}</p>
+
+
+
+        <!-- CENTRE -->
+        <div class="status-center">
+
+          <div class="date-box">
+            <i class="bi bi-calendar3"></i>
+            <span>{{currentDate}}</span>
+          </div>
+
+
+          <div class="time-box">
+            <i class="bi bi-clock-fill"></i>
+            <span>{{currentTime}}</span>
+          </div>
+
+
+          <div class="divider"></div>
+
+
+          <div class="since-box">
+
+            <i class="bi bi-arrow-return-right"></i>
+
+            <span>
+              {{currentStatus.open
+                ? 'Ouvert depuis'
+                : 'Fermé depuis'}}
+            </span>
+
+            <strong>
+              {{currentStatus.open
+                ? openSinceText
+                : closedSinceText}}
+            </strong>
+
+          </div>
+
         </div>
-        <div class="status-countdown" [class.closing]="currentStatus.open" [class.opening]="!currentStatus.open">
-          <span class="countdown-value">{{ countdownText }}</span>
-          <span class="countdown-label">{{ currentStatus.open ? 'Avant fermeture' : 'Avant ouverture' }}</span>
+
+
+
+
+        <!-- DROITE -->
+        <div class="status-right"
+             [class.closing]="currentStatus.open"
+             [class.opening]="!currentStatus.open">
+
+
+          <div class="countdown-box">
+
+            <span class="countdown-label">
+              {{currentStatus.open
+                ? 'Fermeture dans'
+                : 'Ouverture dans'}}
+            </span>
+
+
+            <span class="countdown-value">
+              {{countdownText}}
+            </span>
+
+          </div>
+
+
         </div>
+
+
       </div>
+
     </div>
 
-    <div class="schedule-wrapper">
-      <div class="schedule-header">
-        <span class="header-cell">Jour</span>
-        <span class="header-cell">Ouverture</span>
-        <span class="header-cell">Fermeture</span>
-      </div>
-      @for(horaire of horaires; track horaire.jour){
-        <div class="schedule-row" [class.current-day]="horaire.jour === currentDay">
-          <div class="schedule-cell">
-            <span class="jour-dot" [class.active]="horaire.jour === currentDay"></span>
-            <span class="cell-value">{{ horaire.jour }}</span>
-          </div>
-          <div class="schedule-cell">
-            <span class="cell-value">{{ horaire.ouverture }}</span>
-          </div>
-          <div class="schedule-cell">
-            <span class="cell-value">{{ horaire.fermeture }}</span>
-          </div>
+
+
+
+    <!-- AUJOURD'HUI -->
+    <div class="today-card"
+         [class.open]="currentStatus.open"
+         [class.closed]="!currentStatus.open">
+
+
+      <div class="today-body">
+
+
+        <div class="today-icon">
+          <i class="bi"
+             [ngClass]="currentStatus.open
+             ? 'bi-sun-fill'
+             : 'bi-moon-fill'">
+          </i>
         </div>
-      }
+
+
+        <div class="today-info">
+          <span class="today-label">
+            Aujourd'hui
+          </span>
+
+          <span class="today-day">
+            {{currentDay}}
+          </span>
+        </div>
+
+
+        <div class="today-arrow">
+          <i class="bi bi-arrow-right"></i>
+        </div>
+
+
+
+        <div class="today-hours">
+
+          @if(todaySchedule(); as today){
+
+            <span class="today-open">
+              {{today.ouverture}}
+            </span>
+
+            <span>
+              →
+            </span>
+
+            <span class="today-close">
+              {{today.fermeture}}
+            </span>
+
+          }
+
+        </div>
+
+
+
+        <div class="today-check"
+             [class.visible]="currentStatus.open">
+
+          <i class="bi bi-check-circle-fill"></i>
+
+        </div>
+
+
+      </div>
+
     </div>
+
+
+
+
+
+
+    <!-- TABLEAU -->
+    <div class="schedule-wrapper">
+
+
+      <div class="schedule-header">
+
+        <span class="header-cell header-day">
+          Jour
+        </span>
+
+        <span class="header-cell header-service">
+          Service
+        </span>
+
+        <span class="header-cell header-hours">
+          Horaires
+        </span>
+
+      </div>
+
+
+
+
+      @for(horaire of horaires; track horaire.jour){
+
+        <div class="schedule-row"
+             [class.current-day]="horaire.jour===currentDay">
+
+
+          <div class="schedule-cell cell-day">
+
+            <span class="jour-dot"
+                  [class.active]="horaire.jour===currentDay">
+            </span>
+
+
+            <span class="cell-value">
+              {{horaire.jour}}
+            </span>
+
+
+            @if(horaire.jour===currentDay){
+
+              <span class="today-badge">
+                Aujourd'hui
+              </span>
+
+            }
+
+
+          </div>
+
+
+
+
+
+          <div class="schedule-cell cell-service">
+
+            <i class="bi bi-cup-hot"></i>
+
+            <span class="service-text">
+              Cuisine
+            </span>
+
+          </div>
+
+
+
+
+
+          <div class="schedule-cell cell-hours">
+
+            <span class="hours-range">
+              {{horaire.ouverture}} — {{horaire.fermeture}}
+            </span>
+
+          </div>
+
+
+        </div>
+
+
+      }
+
+
+    </div>
+
+
   </div>
 </section>
