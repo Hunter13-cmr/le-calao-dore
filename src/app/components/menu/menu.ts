@@ -1,15 +1,35 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+/**
+ * Interface représentant un plat du menu.
+ * @property id - Identifiant unique
+ * @property name - Nom du plat
+ * @property description - Description courte
+ * @property price - Prix en FCFA
+ * @property image - URL de l'image
+ * @property category - Catégorie (entree, plat, dessert)
+ */
 export interface Dish {
-  id: number;
-  name: string;
-  description: string;
-  price: number;
-  image: string;
-  category: 'entree' | 'plat' | 'dessert';
+  readonly id: number;
+  readonly name: string;
+  readonly description: string;
+  readonly price: number;
+  readonly image: string;
+  readonly category: 'entree' | 'plat' | 'dessert';
 }
 
+/**
+ * Composant Menu - Carte des plats avec filtres.
+ *
+ * Responsabilités :
+ * - Afficher les plats du restaurant
+ * - Filtrer par catégorie (All, Entrée, Plat, Dessert)
+ * - Présenter les prix en FCFA
+ *
+ * @standalone
+ * @selector app-menu
+ */
 @Component({
   selector: 'app-menu',
   standalone: true,
@@ -18,10 +38,28 @@ export interface Dish {
   styleUrls: ['./menu.css'],
 })
 export class Menu {
-  categories: Array<'all' | Dish['category']> = ['all', 'entree', 'plat', 'dessert'];
+  /**
+   * Catégories disponibles pour le filtrage.
+   * 'all' inclut toutes les catégories.
+   */
+  readonly categories: Array<'all' | Dish['category']> = [
+    'all',
+    'entree',
+    'plat',
+    'dessert',
+  ];
+
+  /**
+   * Catégorie actuellement sélectionnée.
+   * Par défaut : 'all' (tous les plats)
+   */
   activeCategory: 'all' | Dish['category'] = 'all';
 
-  menu: Dish[] = [
+  /**
+   * Liste complète des plats du menu.
+   * 8 plats répartis en 3 catégories.
+   */
+  readonly menu: Dish[] = [
     {
       id: 1,
       name: 'Salade César',
@@ -48,7 +86,7 @@ export class Menu {
     },
     {
       id: 2,
-      name: 'fillet de poisson grillé',
+      name: 'Fillet de poisson grillé',
       description: 'Accompagné de légumes sautés et de riz parfumé.',
       price: 14000,
       image: '/assets/menu/fillet de poisson grille.jpg',
@@ -86,33 +124,42 @@ export class Menu {
       image: '/assets/menu/Salade de fruits.jpg',
       category: 'dessert',
     },
-    {
-      id: 3,
-      name: 'Velouté de potimarron',
-      description: 'Soupe onctueuse au potimarron, relevée d\'une touche de crème.',
-      price: 7000,
-      image: '/assets/menu/Velouté de potimarron.jpg',
-      category: 'dessert',
-    },
   ];
 
-  setCategory(category: 'all' | Dish['category']) {
+  /**
+   * Définit la catégorie active et déclenche le filtrage.
+   * @param category - La catégorie à afficher
+   */
+  setCategory(category: 'all' | Dish['category']): void {
     this.activeCategory = category;
   }
 
-  get visibleMenu() {
+  /**
+   * Retourne la liste des plats selon la catégorie sélectionnée.
+   * Si 'all' est sélectionné, retourne tous les plats.
+   */
+  get visibleMenu(): Dish[] {
     return this.activeCategory === 'all'
       ? this.menu
       : this.menu.filter((dish) => dish.category === this.activeCategory);
   }
 
-  getCategoryLabel(category: 'all' | Dish['category']) {
-    return category === 'all'
-      ? 'Tous'
-      : category === 'entree'
-      ? 'Entrées'
-      : category === 'plat'
-      ? 'Plats'
-      : 'Desserts';
+  /**
+   * Retourne le label lisible d'une catégorie.
+   * @param category - Code de la catégorie
+   */
+  getCategoryLabel(category: 'all' | Dish['category']): string {
+    switch (category) {
+      case 'all':
+        return 'Tous';
+      case 'entree':
+        return 'Entrées';
+      case 'plat':
+        return 'Plats';
+      case 'dessert':
+        return 'Desserts';
+      default:
+        return category;
+    }
   }
 }

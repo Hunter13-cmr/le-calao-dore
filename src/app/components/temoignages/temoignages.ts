@@ -1,14 +1,34 @@
 ﻿import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+/**
+ * Interface représentant un témoignage client.
+ * @property id - Identifiant unique
+ * @property name - Nom du client
+ * @property role - Rôle ou statut du client
+ * @property rating - Note sur 5 étoiles
+ * @property text - Texte du témoignage
+ */
 export interface Testimonial {
-  id: number;
-  name: string;
-  role: string;
-  rating: number;
-  text: string;
+  readonly id: number;
+  readonly name: string;
+  readonly role: string;
+  readonly rating: number;
+  readonly text: string;
 }
 
+/**
+ * Composant Témoignages - Avis clients avec système de notation.
+ *
+ * Responsabilités :
+ * - Afficher les témoignages clients
+ * - Présenter un système d'étoiles (1-5)
+ * - Appliquer des couleurs dynamiques selon le rating
+ * - Offrir un hover effect avec élévation
+ *
+ * @standalone
+ * @selector app-temoignages
+ */
 @Component({
   selector: 'app-temoignages',
   standalone: true,
@@ -17,7 +37,11 @@ export interface Testimonial {
   styleUrls: ['./temoignages.css'],
 })
 export class Temoignages {
-  testimonials: Testimonial[] = [
+  /**
+   * Liste des témoignages clients.
+   * 3 témoignages avec ratings variés (2, 3, 5).
+   */
+  readonly testimonials: readonly Testimonial[] = [
     {
       id: 1,
       name: 'Aïcha Mbarga',
@@ -41,8 +65,19 @@ export class Temoignages {
     },
   ];
 
-  stars = [1, 2, 3, 4, 5];
+  /**
+   * Tableau des étoiles pour la notation (1 à 5).
+   */
+  readonly stars = [1, 2, 3, 4, 5] as const;
 
+  /**
+   * Retourne la classe CSS selon le rating.
+   * < 3 : rating-low (rouge)
+   * = 3 : rating-medium (jaune)
+   * > 3 : rating-high (vert)
+   *
+   * @param rating - Note sur 5
+   */
   getRatingClass(rating: number): string {
     if (rating < 3) {
       return 'rating-low';
