@@ -157,10 +157,10 @@ docs/
 ### 🍽 Menu
 ![Menu](docs/screenshots/desktop2.PNG)
 
-### 🍽 Menu
+### 🍽 Témoignages
 ![Témoignages](docs/screenshots/desktop3.PNG)
 
-### 🍽 Menu
+### 🍽 Horaire
 ![Horaire](docs/screenshots/desktop4.PNG)
 
 ---
